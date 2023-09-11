@@ -4,18 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DCAnime</title>
+    <title>DCmanga</title>
     <link rel="icon" type="icon" href="Images/Iconpng.png">
     <link rel="stylesheet" href="Styles.css">
 
     <script>
-
         function seek() {
 
-            let anime = document.getElementById("bus").value;
+            let anime = document.getElementById("Buscador").value;
 
             if (!isNaN(anime)) {
-                fetch(`https://kitsu.io/api/edge/anime/${parseInt(anime)}`)
+                alert(anime);
+                const url = `https://kitsu.io/api/edge/manga/${parseInt(anime)}`;
+                console.log(url);
+                fetch(url)
                     .then((response) => response.json())
                     .then((data) => {
                         const animeData = data.data.attributes;
@@ -29,26 +31,21 @@
                         document.getElementById("OtherNames").textContent = animeData.titles.en;
                         document.getElementById("Synopsis").textContent = animeData.synopsis;
                         document.getElementById("Image").src = animeData.posterImage.original;
-                        document.getElementById("Episodes").textContent = animeData.episodeCount;
+                        document.getElementById("ch").textContent = animeData.chapterCount;
+                        document.getElementById("vl").textContent = animeData.volumeCount;
+                        document.getElementById("s").textContent = animeData.serialization;
                         document.getElementById("sd").textContent = animeData.startDate;
                         document.getElementById("ed").textContent = animeData.endDate;
                         document.getElementById("r").textContent = animeData.ageRatingGuide;
                     })
                     .catch((error) => {
-                        alert.error("Ocurrió un error al obtener los datos del anime:", error);
+                        console.error("Ocurrió un error al obtener los datos del anime:", error);
                     });
 
             } else {
 
-                fetch(`https://kitsu.io/api/edge/anime?filter[text]=${encodeURIComponent(anime)}`)
-                    /* 
-                    1. https://kitsu.io/api/edge/anime: Esta parte de la URL es la base de la API.
-                    2. ?filter[text]=${encodeURIComponent(anime)}: Esta parte de la URL es la consulta de filtro que indica a la API qué buscar.
-                        -  ? indica que estamos comenzando la parte de la consulta de la URL.
-                        -  filter[text]= es un parámetro de filtro que se usa para buscar anime por texto. En este caso, estamos buscando anime por su nombre.
-                        -  ${encodeURIComponent(anime)} es donde se inserta el nombre del anime que deseas buscar. La función encodeURIComponent()
-                           se utiliza para codificar el valor del nombre de manera que sea seguro para usar en una URL, especialmente si el nombre contiene caracteres especiales o espacios.
-                    */
+                const url = `https://kitsu.io/api/edge/manga?filter[text]=${encodeURIComponent(anime)}`;
+                fetch(url)
                     .then((response) => response.json())
                     .then((data) => {
                         const animeData = data.data[0].attributes;
@@ -63,18 +60,21 @@
                         document.getElementById("OtherNames").textContent = animeData.titles.en;
                         document.getElementById("Synopsis").textContent = animeData.synopsis;
                         document.getElementById("Image").src = animeData.posterImage.original;
-                        document.getElementById("Episodes").textContent = animeData.episodeCount;
-                        document.getElementById("ID").textContent = animeId;
+                        document.getElementById("ch").textContent = animeData.chapterCount;
+                        document.getElementById("vl").textContent = animeData.volumeCount;
+                        document.getElementById("s").textContent = animeData.serialization;
                         document.getElementById("sd").textContent = animeData.startDate;
                         document.getElementById("ed").textContent = animeData.endDate;
                         document.getElementById("r").textContent = animeData.ageRatingGuide;
+                        document.getElementById("ID").textContent = animeId;
 
                     })
                     .catch((error) => {
-                        alert("Ocurrió un error al obtener los datos del anime:", error);
+                        console.error("Ocurrió un error al obtener los datos del anime:", error);
                     });
             }
         }
+
 
     </script>
 
@@ -86,7 +86,7 @@
         <nav>
             <ul>
                 <div class=" icon">
-                    <li> <img src="Images/reno.png" width="100" alt="Icon"></li>
+                    <li> <img src="Images/fantasma.png" width="100" alt="Icon"></li>
                 </div>
                 <li class=" title">
                     <h1> Anime and Manga Seeker </h1>
@@ -100,20 +100,20 @@
 
     <div class=" buscar">
         <label> Name </label>
-        <input type="text" id="bus" />
+        <input type="text" id="Buscador" />
         <button id="boton" type="button" onclick=" seek()"> Search </button>
     </div>
 
     <br><br>
 
-    <h1>Anime Info</h1>
+    <h1>Manga Info</h1>
 
     <form class=" info">
         <div id="info">
-            <h2> <label> </label>
-                <label> <span id="Title_3"></span> </label><br><br>
-                <span id="Title_2"></span> <br><br>
-                <span id="Title"></span> <br>
+            <h2> <label> <span id="Title_2"></span> <br><br>
+                    <span id="Title"></span> <br>
+                 </label><br>
+                 <label> <span id="Title_3"></span></label>
             </h2>
             <p> <label>Type:</label> <span id="Type"></span></p>
             <p> <label>Rating:</label> <span id="Rating"></span></p>
@@ -123,16 +123,22 @@
             <p> <label>Star Date:</label> <span id="sd"></span></p>
             <p> <label>End Date:</label> <span id="ed"></span></p>
             <p> <label>Age Rating:</label> <span id="r"></span></p>
-            <p> <label>Episodes:</label> <span id="Episodes"></span></p>
+            <p> <label>Chapters:</label> <span id="ch"></span></p>
+            <p> <label>Vol:</label> <span id="vl"></span></p>
+            <p> <label>serialization:</label> <span id="s"></span></p>
             <p> <label>Id:</label> <span id="ID"></span></p>
             <p class=" container"> <label style="text-align: justify;">Synopsis:</label> <br><br>
                 <span id="Synopsis"></span>
             </p>
         </div>
 
-        <img id="Image" src="Images/Iconpng.png" alt=":Image">
+        <img id="Image" src="Images/marinero.png" alt=":Image">
 
     </form>
+
+
+
+
 
 </body>
 
