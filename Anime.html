@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DCAnime</title>
+    <link rel="icon" type="icon" href="Images/Iconpng.png">
+    <link rel="stylesheet" href="Styles.css">
+
+</head>
+
+<body>
+
+    <header class="Animes">
+        <nav>
+            <ul>
+                <div class=" icon">
+                    <li> <img src="Images/reno.png" width="100" alt="Icon"></li>
+                </div>
+                <li class=" title">
+                    <h1> Anime and Manga Seeker </h1>
+                </li> <br>
+                <li class=" option"><a href="index.html">Inicio</a></li>
+                <li class=" option"><a href="Anime.html">Anime</a></li>
+                <li class=" option"><a href="Manga.html">Manga</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class=" buscar">
+        <label> Name </label>
+        <input type="text" id=" Buscador" />
+        <button id="boton" type="button"> Search </button>
+    </div>
+
+    <br><br>
+    <h1>Anime Info</h1>
+    <form class=" info">
+        <div id="info">
+            <h2> <label> Title: </label><br>
+                <span id="Title"></span> <br>
+                <span id="Title_3"></span> <br>
+                <span id="Title_2"></span>
+            </h2>
+            <p> <label>Type:</label> <span id="Type"></span></p>
+            <p> <label>Rating:</label> <span id="Rating"></span></p>
+            <p> <label>Released Date:</label> <span id="Releaseddate"></span></p>
+            <p> <label>Status:</label> <span id="Status"></span></p>
+            <p> <label>Other Names:</label> <span id="OtherNames"></span></p>
+            <p> <label>Episodes:</label> <span id="Episodes"></span></p>
+            <p> <label>Synopsis:</label> <span id="Synopsis"></span></p>
+            
+        </div>
+        <div class=" Image">
+            <img id="Image" src="" alt=":3">
+        </div>
+
+    </form>
+
+    <script>
+
+        let x = 1;
+        const url = `https://kitsu.io/api/edge/anime/${x}`;
+
+        fetch(url)
+            .then((response) => response.json())
+            .then((data) => {
+                const anime = data.data.attributes;
+                document.getElementById('Title').textContent = anime.titles["en_jp"];
+                document.getElementById('Title_2').textContent = anime.titles["ja_jp"];
+                document.getElementById('Title_3').textContent = anime.titles["en_jp"];
+                document.getElementById('Type').textContent = anime.subtype;
+                document.getElementById('Rating').textContent = anime.averageRating;
+                document.getElementById('Releaseddate').textContent = anime.startDate;
+                document.getElementById('Status').textContent = anime.status;
+                document.getElementById('OtherNames').textContent = anime.titles.en;
+                document.getElementById('Synopsis').textContent = anime.synopsis;
+                document.getElementById('Image').src = anime.posterImage.medium;
+                document.getElementById('Episodes').textContent = anime.episodeCount;
+            })
+            .catch((error) => {
+                console.error("Ocurrió un error al obtener los datos del anime:", error);
+            });
+    </script>
+</body>
+
+</html>
